@@ -21,6 +21,7 @@ runner
     dataset: getInput("dataset", { required: false }),
     pattern: getAsBoolean(getInput("pattern", { required: false }) || "false"),
     blowUp: getAsBoolean(getInput("blow-up", { required: false }) || "true"),
+    verbose: getAsBoolean(getInput("verbose", { required: false }) || "false"),
   })
   .then((outcome) => {
     setOutput("pass", outcome.didPass ? "true" : "false");

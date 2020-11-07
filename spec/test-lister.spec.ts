@@ -21,6 +21,7 @@ describe("TestLister", () => {
     "billing/cancel",
     "billing/invoice-history",
     "folder/foo-bar",
+    "folder/has space",
   ];
 
   const getCliWrapper = () => {
@@ -149,6 +150,7 @@ describe("TestLister", () => {
         "billing/cancel",
         "billing/invoice-history",
         "folder/foo-bar",
+        "folder/has space"
       ];
 
       expect(filteredList).to.have.length(expectedList.length);
@@ -173,6 +175,7 @@ describe("TestLister", () => {
         "billing/cancel",
         "billing/invoice-history",
         "folder/foo-bar",
+        "folder/has space"
       ];
 
       expect(filteredList).to.have.length(expectedList.length);

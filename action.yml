@@ -21,14 +21,17 @@ inputs:
   blow-up:
     description: If 'false', the action will not be marked as failed even if tests fail. Defaults to 'true'.
     required: false
+  verbose:
+    description: If 'true', info logs will be printed including test run messages from UI-licious. Defaults to 'false'.
+    required: false
 
 outputs:
   pass:
-    description: If all tests passed 'true', else 'false'.   
+    description: If all tests passed 'true', else 'false'.
   total:
     description: The number of tests that were ran.
- total-failed:
-    description: The number of tests that reported a failed run.   
+  total-failed:
+    description: The number of tests that reported a failed run.
 
 runs:
   using: docker

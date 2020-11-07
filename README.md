@@ -32,6 +32,10 @@ This action executes your [UI-licious](https://uilicious.com/) tests and reports
 
 **Optional** If 'true', the `tests` input will be treated as a [multi-match glob pattern](https://github.com/sindresorhus/multimatch). See [example usage](#example-usage). Defaults to 'false'.
 
+### `verbose`
+
+**Optional** If 'true', info logs will be printed including test run messages from UI-licious. Defaults to 'false'.
+
 ## Outputs
 
 ### `pass`
@@ -77,7 +81,7 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: account/password-reset
+  tests: "account/password-reset"
 ```
 
 ### Optional configuration
@@ -96,6 +100,8 @@ with:
 
 If you set the input `pattern` to "true", you can use [glob-patterns](https://github.com/sindresorhus/multimatch) to match tests rather than individually list one. This is particularly helpful if your test-suite is constantly changing. I recommend that you use strong naming conventions to aid the pattern matching usage here.
 
+**Note** - you must use single quotes when using glob-patterns.
+
 #### Run ALL tests
 
 ```yml
@@ -104,6 +110,7 @@ with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
   tests: "**"
+  pattern: true
 ```
 
 #### Run a subset of tests
@@ -113,7 +120,8 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: authentication/**, billing/**
+  tests: "authentication/**, billing/**"
+  pattern: true
 ```
 
 #### Run ALL but some tests
@@ -123,5 +131,10 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: "**", !helpers/**
+  tests: "**, !helpers/**"
+  pattern: true
 ```
+
+## Limitations
+
+Currently there is an issue with tests that contain spaces. This appears to be due to how UI-licious's CLI reads bash arguments - it cuts off the test name on space characters. Please wait for a future release where this is resolved or avoid spaces if you can.

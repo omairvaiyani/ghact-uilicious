@@ -1,6 +1,6 @@
 {
   "name": "ghact-uilicious",
-  "description": "Ui-licious Github Action to trigger test runs.",
+  "description": "UI-licious GitHub Action to trigger test runs.",
   "author": {
     "name": "Omair Vaiyani",
     "email": "omair.vaiyani@live.co.uk"

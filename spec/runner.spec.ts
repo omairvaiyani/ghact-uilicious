@@ -265,7 +265,6 @@ describe("Runner", () => {
       expect(outcome.didPass).to.equal(false);
       expect(outcome.totalTests).to.equal(3);
       expect(outcome.totalFailed).to.equal(1);
-      expect(outcome.blowUpMessage).to.be.ok;
     });
 
     it("should return didPass:true if all tests pass", async () => {

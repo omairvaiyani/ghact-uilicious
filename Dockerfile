@@ -1,4 +1,4 @@
-FROM node:12.14.0 as builder
+FROM node:14.15.0-slim as builder
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN export YARN_CACHE_FOLDER="$(mktemp -d)" \
@@ -7,7 +7,7 @@ RUN export YARN_CACHE_FOLDER="$(mktemp -d)" \
 COPY . .
 RUN yarn build
 
-FROM node:12.14.0
+FROM node:14.15.0-slim
 
 RUN npm install uilicious-cli -g
 
