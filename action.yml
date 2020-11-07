@@ -1,4 +1,4 @@
-name: Ui-licious Test Run
+name: Ui-licious Test Runner
 author: omairvaiyani
 description: Trigger your Ui-licious tests as part of your GitHub Workflow.
 
@@ -38,5 +38,5 @@ runs:
   image: Dockerfile
 
 branding:
-  icon: flask
+  icon: check
   color: green
