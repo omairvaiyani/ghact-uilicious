@@ -1,0 +1,39 @@
+name: Ui-licious Test Run
+author: omairvaiyani
+description: Trigger your Ui-licious tests as part of your GitHub Workflow.
+
+inputs:
+  access-key:
+    description: Your project API access key.
+  project:
+    description: Your Ui-licious project name.
+    required: true
+  tests:
+    description: Comma-separated list of tests to run. Also see 'pattern' for advanced usage.
+  pattern:
+    description: If 'true', the 'tests' input will be treated as a glob pattern. Defaults to 'false'.
+  browser:
+    description: Select which browser to run the test(s) in. Defaults to your project's settings.
+    required: false
+  dataset:
+    description: Choose a dataset.
+    required: false
+  blow-up:
+    description: If 'false', the action will not be marked as failed even if tests fail. Defaults to 'true'.
+    required: false
+
+outputs:
+  pass:
+    description: If all tests passed 'true', else 'false'.   
+  total:
+    description: The number of tests that were ran.
+ total-failed:
+    description: The number of tests that reported a failed run.   
+
+runs:
+  using: docker
+  image: Dockerfile
+
+branding:
+  icon: flask
+  color: green

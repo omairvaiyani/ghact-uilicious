@@ -1,0 +1,17 @@
+[
+  "> started at Fri Nov 06 2020 23:50:00 GMT+0000 (Greenwich Mean Time)\n",
+  "> validating connection to apiHost\n",
+  ">\n> Login successful\n> Starting 'download' command\n>\n> Project Name: foo-bar\n> Project ID:   FOOBARFOOBAR\n>\n",
+  "Downloaded file - /tmp/authentication/logout.test.js\n",
+  "Downloaded file - /tmp/authentication/login.test.js\n",
+  "Downloaded file - /tmp/authentication/password-reset.test.js\n",
+  "Downloaded file - /tmp/helpers/get-date.test.js\n",
+  "Downloaded file - /tmp/helpers/set-object.test.js\n",
+  "Downloaded file - /tmp/post-hook.test.js\n",
+  "Downloaded file - /tmp/marketing-website.test.js\n",
+  "Downloaded file - /tmp/pre-hook.test.js\n",
+  "Downloaded file - /tmp/billing/cancel.test.js\n",
+  "Downloaded file - /tmp/billing/invoice-history.test.js\n",
+  "Downloaded file - /tmp/folder/foo-bar.test.js\n",
+  ">\n> Download completed\n>\n"
+]

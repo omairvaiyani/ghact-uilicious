@@ -1,0 +1,6 @@
+[
+  "> started at Sat Nov 07 2020 23:50:00 GMT+0000 (Greenwich Mean Time)\n",
+  "> validating connection to apiHost\n",
+  ">\n> Login successful\n> Starting 'run' command\n>\n> Project Name: Foo\n> Project ID:   FOOBAR123\n> Browser:      firefox\n> Resolution:   1280x960\n",
+  "ERROR - File not found in project : bar-baz\n"
+]

@@ -1,0 +1,17 @@
+[
+  "> started at Sat Nov 07 2020 23:50:00 GMT+0000 (Greenwich Mean Time)\n",
+  "> validating connection to apiHost\n",
+  ">\n> Login successful\n> Starting 'run' command\n>\n> Project Name: Foo\n> Project ID:   FOOBAR123\n> Browser:      firefox\n> Resolution:   1280x960\n",
+  "> Test Run ID:  abc123abc\n>\n",
+  "[Step 1 - info]: [start of test] - 0.002\n",
+  "[Step 2 - success]: I go to \"https://example.com\" - 11.654\n",
+  "[Step 3 - success]: I see \"Get Started\" - 0.127\n",
+  "[Step 4 - success]: I see \"Welcome to Foo\" - 0.033\n",
+  "[Step 5 - success]: I click \"Log in\" - 0.009\n",
+  "[Step 6 - success]: I fill \"Email\": \"foo@example.ac\" - 2.066\n",
+  "[Step 7 - success]: I fill \"Password\": \"Foobarfoo1\" - 0.661\n",
+  "[Step 8 - success]: I click \"Log in\" - 0.003\n",
+  "[Step 9 - success]: I see \"Dashboard\" - 9.517\n",
+  "[Step 10 - info]: [end of test] - 0\n",
+  ">\n> Test result: success\n>\n> See full results at: https://client-accesskey.uilicious.com/studio/project/FOOBAR123/editor/test/authentication/login.test.js?testRunId=abc123abc\n>\n"
+]

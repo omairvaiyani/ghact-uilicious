@@ -1,0 +1,28 @@
+{
+  "name": "ghact-uilicious",
+  "description": "Ui-licious Github Action to trigger test runs.",
+  "author": {
+    "name": "Omair Vaiyani",
+    "email": "omair.vaiyani@live.co.uk"
+  },
+  "scripts": {
+    "build": "ncc build src/main.ts",
+    "test": "node -r ts-node/register/transpile-only ./node_modules/.bin/jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.json"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "1.2.6",
+    "@types/multimatch": "^4.0.0",
+    "multimatch": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/jasmine": "^3.6.1",
+    "@types/node": "^14.0.13",
+    "@vercel/ncc": "0.25.1",
+    "chai": "^4.2.0",
+    "jasmine": "^3.6.3",
+    "ts-node": "^9.0.0",
+    "typescript": "3.9.6"
+  }
+}
