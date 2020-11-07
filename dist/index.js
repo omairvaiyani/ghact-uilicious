@@ -1821,11 +1821,13 @@ runner
     dataset: core_1.getInput("dataset", { required: false }),
     pattern: util_1.getAsBoolean(core_1.getInput("pattern", { required: false }) || "false"),
     blowUp: util_1.getAsBoolean(core_1.getInput("blow-up", { required: false }) || "true"),
+    verbose: util_1.getAsBoolean(core_1.getInput("verbose", { required: false }) || "false"),
 })
     .then((outcome) => {
     core_1.setOutput("pass", outcome.didPass ? "true" : "false");
     core_1.setOutput("total", `${outcome.totalTests}`);
     core_1.setOutput("total-failed", `${outcome.totalFailed}`);
+    core_1.setOutput("test-outcomes", JSON.stringify(outcome.testOutcomes));
     if (outcome.blowUpMessage) {
         core_1.setFailed(outcome.blowUpMessage);
     }
@@ -1878,11 +1880,11 @@ class Runner {
             let totalTests;
             let totalFailed;
             let blowUpMessage;
+            const testOutcomes = [];
             try {
                 const { testLister, testRunner } = this;
                 const { projectName, tests, pattern, browser, dataset, blowUp, verbose, } = params;
                 const log = verbose ? this.log : Runner.dummyLog;
-                const outcomes = [];
                 const testNames = tests.split(",").map((t) => t.trim());
                 log(`provided tests: ${testNames}`);
                 let list = testNames;
@@ -1900,17 +1902,18 @@ class Runner {
                 let done = 0;
                 for (const testName of list) {
                     log(`triggering test ${++done} of ${list.length}: ${testName}`);
-                    const { didPass } = yield testRunner.run(Object.assign(Object.assign(Object.assign({ projectName,
+                    const { didPass, testRunUrl } = yield testRunner.run(Object.assign(Object.assign(Object.assign({ projectName,
                         testName }, (browser ? { browser } : {})), (dataset ? { dataset } : {})), (verbose ? { verbose } : {})));
-                    log(`"${testName}" ${didPass ? "passed" : "failed"}`);
-                    outcomes.push({
+                    log(`"${testName}" ${didPass ? "passed" : "failed"} - ${testRunUrl}`);
+                    testOutcomes.push({
                         testName,
                         didPass,
+                        testRunUrl,
                     });
                 }
                 log("all tests completed, determining outcome");
-                const failedOutcomes = outcomes.filter((outcome) => !outcome.didPass);
-                totalTests = outcomes.length;
+                const failedOutcomes = testOutcomes.filter((outcome) => !outcome.didPass);
+                totalTests = testOutcomes.length;
                 totalFailed = failedOutcomes.length;
                 didPass = totalFailed === 0;
                 if (!didPass && blowUp) {
@@ -1921,6 +1924,7 @@ class Runner {
                 blowUpMessage = e.message;
             }
             return {
+                testOutcomes,
                 didPass,
                 totalTests,
                 totalFailed,
@@ -2046,14 +2050,36 @@ class TestRunner {
                 // to cover a change in the Ui-licious API
                 throw new Error("Unable to read the test output properly.");
             }
+            const overallResult = output
+                .map(TestRunner.extractResultMaybe)
+                .filter((d) => d !== null)
+                .pop();
+            const testRunUrl = output
+                .map(TestRunner.extractRunUrlMaybe)
+                .filter((d) => d !== null)
+                .pop();
             return {
-                didPass: this.didPassTest(steps),
+                didPass: this.didPassTest(overallResult, steps),
                 steps,
+                testRunUrl,
             };
         });
     }
-    didPassTest(steps) {
-        return steps.every((step) => step.didPass);
+    /**
+     * Whilst we can determine the result based
+     * on whether _each_ step passed, it is safer
+     * to check what Ui-licious determined as
+     * the result - which it prints at the end
+     * of the test.
+     *
+     * As a fallback, in case our output reader
+     * was unable to figure out the result, we
+     * default to checking if all steps passed.
+     */
+    didPassTest(overallResult, steps) {
+        return ["success", "failure"].includes(overallResult)
+            ? overallResult === "success"
+            : steps.every((step) => step.didPass);
     }
     static extractStepMaybe(output) {
         if (output.includes("ERROR - File not found in project")) {
@@ -2073,6 +2099,20 @@ class TestRunner {
             title: title.trim(),
             time: Number.parseFloat(time),
         };
+    }
+    static extractResultMaybe(output) {
+        const resultRegexp = /Test result: ([a-zA-Z]*)/;
+        // if match, the array will store the captured group
+        // at index 1, otherwise it'll be null
+        const match = output.match(resultRegexp);
+        return (match && match[1]) || null;
+    }
+    static extractRunUrlMaybe(output) {
+        const runUrlRegexp = /See full results at: (https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/;
+        // if match, the array will store the captured group
+        // at index 1, otherwise it'll be null
+        const match = output.match(runUrlRegexp);
+        return (match && match[1]) || null;
     }
 }
 exports.TestRunner = TestRunner;

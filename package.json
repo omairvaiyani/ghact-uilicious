@@ -1,6 +1,13 @@
 {
   "name": "ghact-uilicious",
   "description": "UI-licious GitHub Action to trigger test runs.",
+  "keywords": [
+    "ui-licious",
+    "uilicious",
+    "ui testing",
+    "automation testing",
+    "e2e testing"
+  ],
   "author": {
     "name": "Omair Vaiyani",
     "email": "omair.vaiyani@live.co.uk"

@@ -27,6 +27,7 @@ runner
     setOutput("pass", outcome.didPass ? "true" : "false");
     setOutput("total", `${outcome.totalTests}`);
     setOutput("total-failed", `${outcome.totalFailed}`);
+    setOutput("test-outcomes", JSON.stringify(outcome.testOutcomes));
     if (outcome.blowUpMessage) {
       setFailed(outcome.blowUpMessage);
     }

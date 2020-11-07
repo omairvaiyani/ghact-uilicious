@@ -50,6 +50,14 @@ The number of tests that were ran.
 
 The number of tests that reported a failed run.
 
+### `total-outcomes`
+
+A JSON string array containing outcomes for each test:
+```json
+'[...{ "testName": "string", "didPass": "true"|"false", "testRunUrl": "https://..." }]'
+```
+
+
 ## Example usage
 
 Ensure that your `access-key` is stored in GitHub secrets.
@@ -109,7 +117,7 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: "**"
+  tests: '**'
   pattern: true
 ```
 
@@ -120,7 +128,7 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: "authentication/**, billing/**"
+  tests: 'authentication/**, billing/**'
   pattern: true
 ```
 
@@ -131,7 +139,7 @@ uses: omairvaiyani/ghact-uilicious@v1
 with:
   access-key: ${{ secrets.UILICIOUS_ACCESS_KEY }}
   project: my-project
-  tests: "**, !helpers/**"
+  tests: '**, !helpers/**'
   pattern: true
 ```
 

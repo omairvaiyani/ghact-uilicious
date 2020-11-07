@@ -13,7 +13,11 @@ describe("Runner", () => {
 
       const subject = new Runner(testLister, testRunner, options.log);
 
-      const passRun = (): { didPass: boolean; steps: TestRunner.Step[] } => ({
+      const passRun = (): {
+        didPass: boolean;
+        steps: TestRunner.Step[];
+        testRunUrl: string;
+      } => ({
         didPass: true,
         steps: [
           {
@@ -35,9 +39,15 @@ describe("Runner", () => {
             didPass: true,
           },
         ],
+        testRunUrl:
+          "https://client-accesskey.uilicious.com/studio/project/FOOBAR123/editor/test/marketing-website.test.js?testRunId=abc123abc",
       });
 
-      const failRun = (): { didPass: boolean; steps: TestRunner.Step[] } => ({
+      const failRun = (): {
+        didPass: boolean;
+        steps: TestRunner.Step[];
+        testRunUrl: string;
+      } => ({
         didPass: false,
         steps: [
           {
@@ -59,6 +69,8 @@ describe("Runner", () => {
             didPass: true,
           },
         ],
+        testRunUrl:
+          "https://client-accesskey.uilicious.com/studio/project/FOOBAR123/editor/test/marketing-website.test.js?testRunId=abc123abc",
       });
 
       // pass all tests by default
@@ -302,6 +314,27 @@ describe("Runner", () => {
 
       expect(outcomeWithBlowUp.blowUpMessage).to.equal("1 test(s) failed");
       expect(outcomeWithoutBlowUp.blowUpMessage).to.be.undefined;
+    });
+
+    it("should return testOutcomes containing an entry for each test", async () => {
+      const { subject, testRunner, passRun } = getSubject();
+
+      testRunner.run = async () => passRun();
+
+      const tests = ["login", "logout", "forgot-password"];
+
+      const outcome = await subject.run({
+        projectName: "Foo",
+        tests: tests.join(", "),
+      });
+
+      expect(outcome.totalTests, "test arranged improperly").have.at.least(1);
+      expect(outcome.testOutcomes).to.have.length(outcome.totalTests);
+      outcome.testOutcomes.forEach((data, index) => {
+        expect(data.testName).to.equal(tests[index]);
+        expect(data.testRunUrl).to.include("http");
+        expect(data.didPass).to.be.a("boolean");
+      });
     });
   });
 });

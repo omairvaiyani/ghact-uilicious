@@ -52,6 +52,19 @@ describe("TestRunner", () => {
       expect(outcome.steps).to.have.length(10);
     });
 
+    it("should return the testRunUrl", async () => {
+      const subject = new TestRunner(getCliWrapper(successfulRunFixture));
+      const outcome = await subject.run({
+        projectName: "Foo",
+        testName: "authentication/login",
+      });
+
+      expect(outcome).to.be.ok;
+      expect(outcome.testRunUrl).to.equal(
+        "https://client-accesskey.uilicious.com/studio/project/FOOBAR123/editor/test/authentication/login.test.js?testRunId=abc123abc"
+      );
+    });
+
     it("should return steps in order", async () => {
       const subject = new TestRunner(getCliWrapper(successfulRunFixture));
       const outcome = await subject.run({

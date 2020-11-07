@@ -26,14 +26,41 @@ class TestRunner {
       throw new Error("Unable to read the test output properly.");
     }
 
+    const overallResult = output
+      .map(TestRunner.extractResultMaybe)
+      .filter((d) => d !== null)
+      .pop();
+
+    const testRunUrl = output
+      .map(TestRunner.extractRunUrlMaybe)
+      .filter((d) => d !== null)
+      .pop();
+
     return {
-      didPass: this.didPassTest(steps),
+      didPass: this.didPassTest(overallResult, steps),
       steps,
+      testRunUrl,
     };
   }
 
-  private didPassTest(steps: TestRunner.Step[]): boolean {
-    return steps.every((step) => step.didPass);
+  /**
+   * Whilst we can determine the result based
+   * on whether _each_ step passed, it is safer
+   * to check what Ui-licious determined as
+   * the result - which it prints at the end
+   * of the test.
+   *
+   * As a fallback, in case our output reader
+   * was unable to figure out the result, we
+   * default to checking if all steps passed.
+   */
+  private didPassTest(
+    overallResult: string,
+    steps: TestRunner.Step[]
+  ): boolean {
+    return ["success", "failure"].includes(overallResult)
+      ? overallResult === "success"
+      : steps.every((step) => step.didPass);
   }
 
   private static extractStepMaybe(output: string): TestRunner.Step | null {
@@ -58,6 +85,22 @@ class TestRunner {
       title: title.trim(),
       time: Number.parseFloat(time),
     };
+  }
+
+  private static extractResultMaybe(output: string): string | null {
+    const resultRegexp = /Test result: ([a-zA-Z]*)/;
+    // if match, the array will store the captured group
+    // at index 1, otherwise it'll be null
+    const match = output.match(resultRegexp);
+    return (match && match[1]) || null;
+  }
+
+  private static extractRunUrlMaybe(output: string): string | null {
+    const runUrlRegexp = /See full results at: (https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/;
+    // if match, the array will store the captured group
+    // at index 1, otherwise it'll be null
+    const match = output.match(runUrlRegexp);
+    return (match && match[1]) || null;
   }
 }
 

@@ -31,6 +31,13 @@ class Runner {
     let totalTests: number;
     let totalFailed: number;
     let blowUpMessage: string;
+
+    const testOutcomes: {
+      testName: string;
+      didPass: boolean;
+      testRunUrl: string;
+    }[] = [];
+
     try {
       const { testLister, testRunner } = this;
       const {
@@ -43,8 +50,6 @@ class Runner {
         verbose,
       } = params;
       const log = verbose ? this.log : Runner.dummyLog;
-
-      const outcomes: { testName: string; didPass: boolean }[] = [];
 
       const testNames = tests.split(",").map((t) => t.trim());
 
@@ -74,7 +79,7 @@ class Runner {
       for (const testName of list) {
         log(`triggering test ${++done} of ${list.length}: ${testName}`);
 
-        const { didPass } = await testRunner.run({
+        const { didPass, testRunUrl } = await testRunner.run({
           projectName,
           testName,
           ...(browser ? { browser } : {}),
@@ -82,21 +87,23 @@ class Runner {
           ...(verbose ? { verbose } : {}),
         });
 
-        log(`"${testName}" ${didPass ? "passed" : "failed"}`);
+        log(`"${testName}" ${didPass ? "passed" : "failed"} - ${testRunUrl}`);
 
-        outcomes.push({
+        testOutcomes.push({
           testName,
           didPass,
+          testRunUrl,
         });
       }
 
       log("all tests completed, determining outcome");
 
-      const failedOutcomes = outcomes.filter((outcome) => !outcome.didPass);
+      const failedOutcomes = testOutcomes.filter((outcome) => !outcome.didPass);
 
-      totalTests = outcomes.length;
+      totalTests = testOutcomes.length;
       totalFailed = failedOutcomes.length;
       didPass = totalFailed === 0;
+
       if (!didPass && blowUp) {
         blowUpMessage = `${totalFailed} test(s) failed`;
       }
@@ -105,6 +112,7 @@ class Runner {
     }
 
     return {
+      testOutcomes,
       didPass,
       totalTests,
       totalFailed,
