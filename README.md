@@ -54,7 +54,7 @@ The number of tests that reported a failed run.
 
 A JSON string array containing outcomes for each test:
 ```json
-'[...{ "testName": "string", "didPass": "true"|"false", "testRunUrl": "https://..." }]'
+[{ "testName": "string", "didPass": "true|false", "testRunUrl": "https://..." }]'
 ```
 
 ## Example usage
