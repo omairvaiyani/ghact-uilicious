@@ -57,7 +57,6 @@ A JSON string array containing outcomes for each test:
 '[...{ "testName": "string", "didPass": "true"|"false", "testRunUrl": "https://..." }]'
 ```
 
-
 ## Example usage
 
 Ensure that your `access-key` is stored in GitHub secrets.
