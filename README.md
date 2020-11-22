@@ -50,7 +50,7 @@ The number of tests that were ran.
 
 The number of tests that reported a failed run.
 
-### `total-outcomes`
+### `test-outcomes`
 
 A JSON string array containing outcomes for each test:
 ```json
