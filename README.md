@@ -1,4 +1,4 @@
-# UI-licious GitHub Action
+# UIlicious GitHub Action
 
 This action executes your [UI-licious](https://uilicious.com/) tests and reports the outcome. Use this as part of your GitHub Workflow CI/CD pipeline.
 

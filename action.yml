@@ -1,12 +1,12 @@
 name: UI-licious Test Runner
 author: omairvaiyani
-description: Trigger your UI-licious tests as part of your GitHub Workflow.
+description: Trigger your UIlicious tests as part of your GitHub Workflow.
 
 inputs:
   access-key:
     description: Your project API access key.
   project:
-    description: Your UI-licious project name.
+    description: Your UIlicious project name.
     required: true
   tests:
     description: Comma-separated list of tests to run. Also see 'pattern' for advanced usage.

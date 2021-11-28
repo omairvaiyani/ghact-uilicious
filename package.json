@@ -1,6 +1,6 @@
 {
   "name": "ghact-uilicious",
-  "description": "UI-licious GitHub Action to trigger test runs.",
+  "description": "UIlicious GitHub Action to trigger test runs.",
   "keywords": [
     "ui-licious",
     "uilicious",
