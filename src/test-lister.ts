@@ -4,7 +4,7 @@ import { TestListerParams } from "./interface";
 
 class TestLister {
   private static DEST_DIR = "/tmp/";
-  private static DOWNLOAD_LINE_PREFIX = "Downloaded file - ";
+  private static DOWNLOAD_LINE_PREFIX = /\[created\]|\[updated\] /;
   private static TEST_FILE_EXT = ".test.js";
 
   constructor(private cliWrapper: CliWrapper) {}
@@ -48,13 +48,16 @@ class TestLister {
   }
 
   private static filterDownloadLines() {
-    return (line: string) => line.startsWith(TestLister.DOWNLOAD_LINE_PREFIX);
+    return (line: string) => line.match(TestLister.DOWNLOAD_LINE_PREFIX);
   }
 
   private static extractTestName(destDir: string) {
-    const prefix = `${TestLister.DOWNLOAD_LINE_PREFIX}${destDir}`;
-    return (line: string) =>
-      line.replace(`${prefix}`, "").split(TestLister.TEST_FILE_EXT)[0];
+    return (line: string) => {
+      return line
+        .replace(TestLister.DOWNLOAD_LINE_PREFIX, "")
+        .replace(destDir, '')
+        .split(TestLister.TEST_FILE_EXT)[0];
+    };
   }
 }
 

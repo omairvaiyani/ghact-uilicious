@@ -40,15 +40,8 @@ class Runner {
 
     try {
       const { testLister, testRunner } = this;
-      const {
-        projectName,
-        tests,
-        pattern,
-        browser,
-        dataset,
-        blowUp,
-        verbose,
-      } = params;
+      const { projectName, tests, pattern, browser, dataset, blowUp, verbose } =
+        params;
       const log = verbose ? this.log : Runner.dummyLog;
 
       const testNames = tests.split(",").map((t) => t.trim());
@@ -57,21 +50,17 @@ class Runner {
 
       let list: string[] = testNames;
       if (pattern) {
-        log("pattern mode, looking for tests in project");
+        log(`pattern mode, looking for tests in project with pattern: ${pattern}`);
         const allTests = await testLister.listAll({
           projectName,
           ...(verbose ? { verbose } : {}),
         });
         log(
-          `found ${allTests.length} test(s), here is a sample: ${[
-            ...allTests,
-          ].slice(0, 4)}`
+          `found ${allTests.length} test(s)`
         );
         list = testLister.filter(allTests, testNames);
         log(
-          `pattern filter matched ${list.length} test(s), here is a sample: ${[
-            ...list,
-          ].slice(0, 4)}`
+          `pattern filter matched ${list.length} test(s), e.g. '${list[0]}'`
         );
       }
 

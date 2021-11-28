@@ -1883,21 +1883,17 @@ class Runner {
             const testOutcomes = [];
             try {
                 const { testLister, testRunner } = this;
-                const { projectName, tests, pattern, browser, dataset, blowUp, verbose, } = params;
+                const { projectName, tests, pattern, browser, dataset, blowUp, verbose } = params;
                 const log = verbose ? this.log : Runner.dummyLog;
                 const testNames = tests.split(",").map((t) => t.trim());
                 log(`provided tests: ${testNames}`);
                 let list = testNames;
                 if (pattern) {
-                    log("pattern mode, looking for tests in project");
+                    log(`pattern mode, looking for tests in project with pattern: ${pattern}`);
                     const allTests = yield testLister.listAll(Object.assign({ projectName }, (verbose ? { verbose } : {})));
-                    log(`found ${allTests.length} test(s), here is a sample: ${[
-                        ...allTests,
-                    ].slice(0, 4)}`);
+                    log(`found ${allTests.length} test(s)`);
                     list = testLister.filter(allTests, testNames);
-                    log(`pattern filter matched ${list.length} test(s), here is a sample: ${[
-                        ...list,
-                    ].slice(0, 4)}`);
+                    log(`pattern filter matched ${list.length} test(s), e.g. '${list[0]}'`);
                 }
                 let done = 0;
                 for (const testName of list) {
@@ -1995,16 +1991,20 @@ class TestLister {
         return multimatch_1.default(list, patterns);
     }
     static filterDownloadLines() {
-        return (line) => line.startsWith(TestLister.DOWNLOAD_LINE_PREFIX);
+        return (line) => line.match(TestLister.DOWNLOAD_LINE_PREFIX);
     }
     static extractTestName(destDir) {
-        const prefix = `${TestLister.DOWNLOAD_LINE_PREFIX}${destDir}`;
-        return (line) => line.replace(`${prefix}`, "").split(TestLister.TEST_FILE_EXT)[0];
+        return (line) => {
+            return line
+                .replace(TestLister.DOWNLOAD_LINE_PREFIX, "")
+                .replace(destDir, '')
+                .split(TestLister.TEST_FILE_EXT)[0];
+        };
     }
 }
 exports.TestLister = TestLister;
 TestLister.DEST_DIR = "/tmp/";
-TestLister.DOWNLOAD_LINE_PREFIX = "Downloaded file - ";
+TestLister.DOWNLOAD_LINE_PREFIX = /\[created\]|\[updated\] /;
 TestLister.TEST_FILE_EXT = ".test.js";
 
 
