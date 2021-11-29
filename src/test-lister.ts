@@ -4,7 +4,7 @@ import { TestListerParams } from "./interface";
 
 class TestLister {
   private static DEST_DIR = "/tmp/";
-  private static DOWNLOAD_LINE_PREFIX = /\[created\]|\[updated\] /;
+  private static DOWNLOAD_LINE_PREFIX = /\[created\] |\[updated\] /;
   private static TEST_FILE_EXT = ".test.js";
 
   constructor(private cliWrapper: CliWrapper) {}
