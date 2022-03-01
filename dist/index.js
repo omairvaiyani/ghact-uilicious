@@ -1763,6 +1763,9 @@ class CliWrapper {
             if (params.dataset) {
                 opts = opts.concat(["--dataset", params.dataset]);
             }
+            if (params.dataObject) {
+              opts = opts.concat(["--dataObject", params.dataObject]);
+          }
             return this.execute("run", opts, params.verbose);
         });
     }
@@ -1884,7 +1887,7 @@ class Runner {
             const testOutcomes = [];
             try {
                 const { testLister, testRunner } = this;
-                const { projectName, tests, pattern, browser, dataset, blowUp, verbose } = params;
+                const { projectName, tests, pattern, browser, dataset, dataObject, blowUp, verbose } = params;
                 const log = verbose ? this.log : Runner.dummyLog;
                 const testNames = tests.split(",").map((t) => t.trim());
                 log(`provided tests: ${testNames}`);
@@ -1899,8 +1902,8 @@ class Runner {
                 let done = 0;
                 for (const testName of list) {
                     log(`triggering test ${++done} of ${list.length}: ${testName}`);
-                    const { didPass, testRunUrl } = yield testRunner.run(Object.assign(Object.assign(Object.assign({ projectName,
-                        testName }, (browser ? { browser } : {})), (dataset ? { dataset } : {})), (verbose ? { verbose } : {})));
+                    const { didPass, testRunUrl } = yield testRunner.run(Object.assign(Object.assign(Object.assign(Object.assign({ projectName,
+                        testName }, (browser ? { browser } : {})), (dataset ? { dataset } : {})), (dataObject ? { dataObject } : {})), (verbose ? { verbose } : {})));
                     log(`"${testName}" ${didPass ? "passed" : "failed"} - ${testRunUrl}`);
                     testOutcomes.push({
                         testName,
