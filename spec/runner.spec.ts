@@ -222,7 +222,8 @@ describe("Runner", () => {
         projectName: "Foo",
         tests: "login",
         browser: "safari",
-        dataset: `{"deployment_url": "https://github.com/"}`,
+        dataset: "qa-test",
+        dataObject: `{"deployment_url": "https://github.com/"}`,
       });
 
       expect(runParams).to.have.property("browser", "safari");
