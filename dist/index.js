@@ -1819,6 +1819,7 @@ runner
     tests: core_1.getInput("tests", { required: true }),
     browser: core_1.getInput("browser", { required: false }),
     dataset: core_1.getInput("dataset", { required: false }),
+    dataObject: core_1.getInput("dataObject", { required: false }),
     pattern: util_1.getAsBoolean(core_1.getInput("pattern", { required: false }) || "false"),
     blowUp: util_1.getAsBoolean(core_1.getInput("blow-up", { required: false }) || "true"),
     verbose: util_1.getAsBoolean(core_1.getInput("verbose", { required: false }) || "false"),
