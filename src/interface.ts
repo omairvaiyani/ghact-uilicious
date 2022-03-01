@@ -25,6 +25,7 @@ interface TestRunParams {
   testName: string;
   browser?: string;
   dataset?: string;
+  dataObject?: string;
   verbose?: boolean;
 }
 

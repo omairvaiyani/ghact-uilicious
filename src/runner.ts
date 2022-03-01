@@ -40,7 +40,7 @@ class Runner {
 
     try {
       const { testLister, testRunner } = this;
-      const { projectName, tests, pattern, browser, dataset, blowUp, verbose } =
+      const { projectName, tests, pattern, browser, dataset, dataObject, blowUp, verbose } =
         params;
       const log = verbose ? this.log : Runner.dummyLog;
 
@@ -73,6 +73,7 @@ class Runner {
           testName,
           ...(browser ? { browser } : {}),
           ...(dataset ? { dataset } : {}),
+          ...(dataObject ? { dataObject } : {}),
           ...(verbose ? { verbose } : {}),
         });
 
