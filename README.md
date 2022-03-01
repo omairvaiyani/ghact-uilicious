@@ -24,6 +24,10 @@ This action executes your [UI-licious](https://uilicious.com/) tests and reports
 
 **Optional** If provided, your tests will run with the given [dataset](https://docs.uilicious.com/scripting/datasets.html#datasets) selected.
 
+### `dataObject`
+
+**Optional** If provided, will pass a JSON object with parameters to your tests.
+
 ### `blow-up`
 
 **Optional** If 'false', the action will not be marked as failed even if tests fail. Defaults to 'true'.
