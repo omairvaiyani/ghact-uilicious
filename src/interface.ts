@@ -3,6 +3,7 @@ interface RunnerParams {
   tests: string;
   browser?: string;
   dataset?: string;
+  dataObject?: string;
   blowUp?: boolean;
   pattern?: boolean;
   verbose?: boolean;
