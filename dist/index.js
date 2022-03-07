@@ -2052,7 +2052,7 @@ class TestRunner {
                 // ["start of test", "end of test"]
                 // Therefore, we may need to update this library
                 // to cover a change in the Ui-licious API
-                throw new Error("Unable to read the test output properly.");
+                throw new Error("Unable to read the test output properly.\n" + output.join("\n"));
             }
             const overallResult = output
                 .map(TestRunner.extractResultMaybe)
