@@ -18,7 +18,7 @@ inputs:
   dataset:
     description: Choose a dataset.
     required: false
-  dataObject:
+  data-object:
     description: Pass in a JSON data object.
     required: false
   blow-up:
