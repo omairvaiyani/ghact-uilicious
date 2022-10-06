@@ -1763,6 +1763,9 @@ class CliWrapper {
             if (params.dataset) {
                 opts = opts.concat(["--dataset", params.dataset]);
             }
+            if (params.dataObject) {
+              opts = opts.concat(["--dataObject", params.dataObject]);
+          }
             return this.execute("run", opts, params.verbose);
         });
     }
@@ -1819,6 +1822,7 @@ runner
     tests: core_1.getInput("tests", { required: true }),
     browser: core_1.getInput("browser", { required: false }),
     dataset: core_1.getInput("dataset", { required: false }),
+    dataObject: core_1.getInput("data-object", { required: false }),
     pattern: util_1.getAsBoolean(core_1.getInput("pattern", { required: false }) || "false"),
     blowUp: util_1.getAsBoolean(core_1.getInput("blow-up", { required: false }) || "true"),
     verbose: util_1.getAsBoolean(core_1.getInput("verbose", { required: false }) || "false"),
@@ -1883,7 +1887,7 @@ class Runner {
             const testOutcomes = [];
             try {
                 const { testLister, testRunner } = this;
-                const { projectName, tests, pattern, browser, dataset, blowUp, verbose } = params;
+                const { projectName, tests, pattern, browser, dataset, dataObject, blowUp, verbose } = params;
                 const log = verbose ? this.log : Runner.dummyLog;
                 const testNames = tests.split(",").map((t) => t.trim());
                 log(`provided tests: ${testNames}`);
@@ -1898,8 +1902,8 @@ class Runner {
                 let done = 0;
                 for (const testName of list) {
                     log(`triggering test ${++done} of ${list.length}: ${testName}`);
-                    const { didPass, testRunUrl } = yield testRunner.run(Object.assign(Object.assign(Object.assign({ projectName,
-                        testName }, (browser ? { browser } : {})), (dataset ? { dataset } : {})), (verbose ? { verbose } : {})));
+                    const { didPass, testRunUrl } = yield testRunner.run(Object.assign(Object.assign(Object.assign(Object.assign({ projectName,
+                        testName }, (browser ? { browser } : {})), (dataset ? { dataset } : {})), (dataObject ? { dataObject } : {})), (verbose ? { verbose } : {})));
                     log(`"${testName}" ${didPass ? "passed" : "failed"} - ${testRunUrl}`);
                     testOutcomes.push({
                         testName,
@@ -2048,7 +2052,7 @@ class TestRunner {
                 // ["start of test", "end of test"]
                 // Therefore, we may need to update this library
                 // to cover a change in the Ui-licious API
-                throw new Error("Unable to read the test output properly.");
+                throw new Error("Unable to read the test output properly.\n" + output.join("\n"));
             }
             const overallResult = output
                 .map(TestRunner.extractResultMaybe)

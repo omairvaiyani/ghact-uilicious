@@ -223,10 +223,12 @@ describe("Runner", () => {
         tests: "login",
         browser: "safari",
         dataset: "qa-test",
+        dataObject: `{"deployment_url": "https://github.com/"}`,
       });
 
       expect(runParams).to.have.property("browser", "safari");
       expect(runParams).to.have.property("dataset", "qa-test");
+      expect(runParams).to.have.property("dataObject", `{"deployment_url": "https://github.com/"}`);
     });
 
     it("should log messages if verbose:true", async () => {

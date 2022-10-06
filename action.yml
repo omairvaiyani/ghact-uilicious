@@ -18,6 +18,9 @@ inputs:
   dataset:
     description: Choose a dataset.
     required: false
+  data-object:
+    description: Pass in a JSON data object.
+    required: false
   blow-up:
     description: If 'false', the action will not be marked as failed even if tests fail. Defaults to 'true'.
     required: false

@@ -27,6 +27,9 @@ class CliWrapper {
     if (params.dataset) {
       opts = opts.concat(["--dataset", params.dataset]);
     }
+    if (params.dataObject) {
+      opts = opts.concat(["--dataObject", params.dataObject]);
+    }
 
     return this.execute("run", opts, params.verbose);
   }

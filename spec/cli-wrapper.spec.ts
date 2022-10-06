@@ -83,6 +83,7 @@ describe("CliWrapper", () => {
         testName: "Bar",
         browser: "firefox",
         dataset: "qa",
+        dataObject: `{"deployment_url": "https://github.com/"}`
       });
 
       expect(spawnState.count).to.equal(1);
@@ -90,9 +91,11 @@ describe("CliWrapper", () => {
 
       const browserOptIndex = spawnState.params.indexOf("--browser");
       const datasetOptIndex = spawnState.params.indexOf("--dataset");
+      const dataObjectOptIndex = spawnState.params.indexOf("--dataObject");
 
       expect(spawnState.params[browserOptIndex + 1]).to.equal("firefox");
       expect(spawnState.params[datasetOptIndex + 1]).to.equal("qa");
+      expect(spawnState.params[dataObjectOptIndex + 1]).to.equal(`{"deployment_url": "https://github.com/"}`);
     });
 
     it("should return stdout and stderr in streamed order", async () => {

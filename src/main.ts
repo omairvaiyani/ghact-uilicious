@@ -19,6 +19,7 @@ runner
     tests: getInput("tests", { required: true }),
     browser: getInput("browser", { required: false }),
     dataset: getInput("dataset", { required: false }),
+    dataObject: getInput("data-object", { required: false }),
     pattern: getAsBoolean(getInput("pattern", { required: false }) || "false"),
     blowUp: getAsBoolean(getInput("blow-up", { required: false }) || "true"),
     verbose: getAsBoolean(getInput("verbose", { required: false }) || "false"),
